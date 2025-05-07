@@ -24,7 +24,10 @@ stages:
             displayName: 'Use .NET SDK $(dotnetSdkVersion)'
             inputs:
               version: '$(dotnetSdkVersion)'
-
+          - task: NodeTool@0
+            displayName: Use Node.js 16.x
+            inputs:
+              versionSpec: 16.x
           - task: Npm@1
             displayName: 'Run npm install'
             inputs:
@@ -58,8 +61,8 @@ stages:
             inputs:
               command: 'publish'
               projects: '**/*.csproj'
-              publishWebProjects: false
-              arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+              publishWebProjects: true
+              arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
               zipAfterPublish: true
 
           - publish: '$(Build.ArtifactStagingDirectory)'
